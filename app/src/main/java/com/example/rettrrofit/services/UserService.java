@@ -10,7 +10,4 @@ public interface UserService {
 
     @POST("user")
     Call<User>CreateUser(@Body User user);
-
-
-
 }

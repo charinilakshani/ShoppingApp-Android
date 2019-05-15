@@ -50,11 +50,14 @@ public class CategoryActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-                if (!response.isSuccessful()) {
-                    return;
+                if (response.isSuccessful()) {
+                    List<Category> categories = response.body();
+                    categoryList.addAll(categories);
+                    adapter .notifyDataSetChanged();
+                }else {
+
                 }
-                List<Category> categories = response.body();
-                categoryList.addAll(categories);
+
             }
 
             @Override

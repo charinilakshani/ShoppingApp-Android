@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.rettrrofit.FrontView.HomeActivity;
 import com.example.rettrrofit.FrontView.LoginActivity;
 import com.example.rettrrofit.FrontView.RegisterActivity;
+import com.example.rettrrofit.FrontView.content_home;
 import com.example.rettrrofit.R;
 import com.example.rettrrofit.models.Category;
 
@@ -34,22 +35,25 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.list_product, viewGroup, false);
+                .inflate(R.layout.list_category, viewGroup, false);
         return new ViewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         final Category category = categories.get(i);
         viewHolder.textViewProductName.setText(category.getName());
-        viewHolder.linearLayoutCategoryId.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "Clicked" + category.getName(), Toast.LENGTH_LONG).show();
-            }
+//        viewHolder.linearLayoutCategoryId.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(context, content_home.class);
+//                intent.putExtra("categoryName", category.getName());
+//                context.startActivity(intent);
+//            }
+//        });
 
-        });
+
     }
 
 

@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.rettrrofit.clients.ApiClient;
 import com.example.rettrrofit.models.Product;
@@ -43,28 +44,27 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private void loadRecylerViewData() {
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("https://jsonplaceholder.typicode.com/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
 
         ProductService productService = ApiClient.getClient().create(ProductService.class);
-        Call<List<Product>> call = productService.getProduct();
+        Call<List<Product>> call = productService.getProducts();
 
         call.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                if (!response.isSuccessful()) {
-//                testresult.setText("code" +response.code());
-                    return;
+                if (response.isSuccessful()) {
+//                testresult.setText("code" +response.code());.
+                    List<Product> products = response.body();
+                    productList.addAll(products);
+                    adapter.notifyDataSetChanged();
+                } else {
+//                    Log.d()
+                    System.out.println(response);
                 }
-                List<Product> products = response.body();
-                productList.addAll(products);
             }
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
-
+                System.out.println(t.getMessage());
             }
         });
     }

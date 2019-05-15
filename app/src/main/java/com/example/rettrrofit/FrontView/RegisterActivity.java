@@ -37,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         Age = (EditText) findViewById(R.id.etAge);
         Password = (EditText) findViewById(R.id.etPassword);
         btnRegister = (Button) findViewById(R.id.bRegister);
+        btnRegister.setOnClickListener(this);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         switch (view.getId()) {
             case R.id.bRegister:
 //                loadRecylerViewData();
-                startActivity(new Intent(this, HomeActivity.class));
+                startActivity(new Intent(this, content_home.class));
                 break;
         }
 

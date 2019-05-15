@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FrontView.SearchActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".FrontView.content_home"
+    tools:showIn="@layout/app_bar_content_home">
 
     <com.mancj.materialsearchbar.MaterialSearchBar
         app:mt_speechMode="false"
@@ -15,5 +17,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/searchBar" />
 
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below = "@+id/searchBar"
+        android:id="@+id/recyclerView"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
