@@ -24,6 +24,11 @@ public class Product {
     @SerializedName("image")
     private String image;
 
+    public Product() {
+    }
+
+
+
     public int getpId() {
         return pId;
     }
@@ -77,6 +82,16 @@ public class Product {
     }
 
     public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Product(int pId, String productName, String category, int price, int quantity, String description, String image) {
+        this.pId = pId;
+        this.productName = productName;
+        this.category = category;
+        this.price = price;
+        this.quantity = quantity;
+        this.description = description;
         this.image = image;
     }
 

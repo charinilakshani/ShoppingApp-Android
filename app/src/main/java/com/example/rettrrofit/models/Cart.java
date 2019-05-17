@@ -3,10 +3,11 @@ package com.example.rettrrofit.models;
 import com.google.gson.annotations.SerializedName;
 
 public class Cart {
+    @SerializedName("userId")
+    private  int userId;
 
     @SerializedName("cartId")
     private int cartId;
-
 
 
     @SerializedName("quantity")
@@ -14,8 +15,7 @@ public class Cart {
     @SerializedName("productName")
     private String productName;
 
-    @SerializedName("userId")
-    private  int userId;
+
 
     @SerializedName("pId")
     private int pId;
