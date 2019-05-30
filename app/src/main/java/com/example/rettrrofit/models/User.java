@@ -1,13 +1,24 @@
 package com.example.rettrrofit.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
 
+    @SerializedName("userId")
     private int userId;
+
+    @SerializedName("firstName")
     private String firstName;
+    @SerializedName("secondName")
     private String secondName;
+    @SerializedName("email")
     private String email;
+    @SerializedName("password")
     private String password;
 
+    public User() {
+
+    }
 
     public int getUserId() {
         return userId;
@@ -60,7 +71,8 @@ public class User {
                 '}';
     }
 
-    public User(String firstName, String secondName, String email, String password) {
+    public User(int userId, String firstName, String secondName, String email, String password) {
+        this.userId = userId;
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;

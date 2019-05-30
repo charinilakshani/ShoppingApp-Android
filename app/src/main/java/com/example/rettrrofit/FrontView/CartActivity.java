@@ -1,6 +1,7 @@
 package com.example.rettrrofit.FrontView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +32,11 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private List<Cart> cartList;
 
 
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String UserId = "userId";
+    SharedPreferences sharedpreferences;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,21 +50,40 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView = (RecyclerView) findViewById(R.id.list_cart);
         recyclerView.setHasFixedSize(true);
         btn_placeOrder.setOnClickListener(this);
-
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         cartList = new ArrayList<>();
         adapter = new cartAdapter(cartList, this);
         recyclerView.setAdapter(adapter);
+
+
+
         loadRecylerViewData();
+
+    }
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.btn_placeOrder:
+
+
+
+                startActivity(new Intent(this, CheckOutActivity.class));
+//                startActivity(new Intent(this, HomeActivity.class));
+                break;
+        }
 
     }
 
     private void loadRecylerViewData() {
+        SharedPreferences example = getSharedPreferences(MyPREFERENCES, 0);
+        int userId = example.getInt("value",0);
+        System.out.println("userString"+userId);
+        System.out.println(" Authenticatedddddd"+ userId);
 
         CartService cartService = ApiClient.getClient().create(CartService.class);
-        Call<List<Cart>> call = cartService.getCartAll();
+        Call<List<Cart>> call = cartService.getByCartId(userId);
 
         call.enqueue(new Callback<List<Cart>>() {
             @Override
@@ -81,15 +106,5 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
 
-            case R.id.btn_placeOrder:
-                startActivity(new Intent(this, CheckOutActivity.class));
-//                startActivity(new Intent(this, HomeActivity.class));
-                break;
-        }
-
-    }
 }

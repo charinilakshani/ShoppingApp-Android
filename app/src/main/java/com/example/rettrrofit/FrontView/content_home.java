@@ -1,6 +1,7 @@
 package com.example.rettrrofit.FrontView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,7 +20,9 @@ import android.view.MenuItem;
 import com.example.rettrrofit.R;
 import com.example.rettrrofit.adapters.productAdapter;
 import com.example.rettrrofit.clients.ApiClient;
+import com.example.rettrrofit.models.Cart;
 import com.example.rettrrofit.models.Product;
+import com.example.rettrrofit.services.CartService;
 import com.example.rettrrofit.services.ProductService;
 
 import java.util.ArrayList;
@@ -37,6 +40,10 @@ public class content_home extends AppCompatActivity
     private List<Product> productList;
     private FloatingActionButton floatingActionButton;
     String categoryname ="";
+
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String UserId = "userId";
+    SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +85,12 @@ public class content_home extends AppCompatActivity
 
 
 
-
+//        public  void logout(View view){
+//            SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+//            SharedPreferences.Editor editor = sharedpreferences.edit();
+//            editor.clear();
+//            editor.commit();
+//        }
 
         // getIntent Here
 //        if(getIntent() !=null){
@@ -93,11 +105,27 @@ public class content_home extends AppCompatActivity
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
-                startActivity( new Intent(this,CartActivity.class));
+
+                SharedPreferences example = getSharedPreferences(MyPREFERENCES, 0);
+                int userId = example.getInt("value",0);
+
+                System.out.println("userId"+userId);
+
+                Intent CIntent = new Intent(getApplicationContext(), CartActivity.class);
+
+                startActivity(CIntent);
+//                startActivity( new Intent(this,CartActivity.class));
                 break;
 
         }
     }
+
+
+
+
+
+
+
 
     private void loadRecylerViewData() {
 
@@ -158,7 +186,7 @@ public class content_home extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.

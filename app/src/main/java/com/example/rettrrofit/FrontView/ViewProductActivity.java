@@ -1,6 +1,7 @@
 package com.example.rettrrofit.FrontView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,9 @@ import com.example.rettrrofit.services.CartService;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -29,15 +33,22 @@ import retrofit2.Response;
 
 public class ViewProductActivity extends AppCompatActivity implements View.OnClickListener {
 
-  private   TextView productName,productPrice,productDescription,product_Quantity;
-  private   ImageView product_Image;
- private    CollapsingToolbarLayout collapsingToolbarLayout;
- private    FloatingActionButton btnCart;
- private    ElegantNumberButton numberButton;
- private  Button btn_add,btn_sub;
-
-    String foodId ="";
+    private TextView productName, productPrice, productDescription, product_Quantity, productId;
+    private ImageView product_Image;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private FloatingActionButton btnCart;
+    private ElegantNumberButton numberButton;
+    private Button btn_add, btn_sub;
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String UserId = "userId";
+    SharedPreferences sharedpreferences;
+    String foodId = "";
     private Product product;
+    private List<Cart> cartList;
+    int pid;
+    int quantity;
+    int cartId;
+  int  cartQuantityR;
 
 
     @Override
@@ -45,34 +56,30 @@ public class ViewProductActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_product);
         init();
+
         bindData();
+        loadRecylerViewData();
+
     }
 
 
-
-
     private void init() {
-        productName =(TextView) findViewById(R.id.food_name);
-        productPrice =(TextView) findViewById(R.id.food_price);
-        productDescription =(TextView) findViewById(R.id.food_description);
+        productName = (TextView) findViewById(R.id.food_name);
+        productPrice = (TextView) findViewById(R.id.food_price);
+        productDescription = (TextView) findViewById(R.id.food_description);
+//        numberButton = (ElegantNumberButton) findViewById(R.id.number_button);
+        btnCart = (FloatingActionButton) findViewById(R.id.btnCart);
+        product_Image = (ImageView) findViewById(R.id.food_img);
+        productId = (TextView) findViewById(R.id.productId);
 
-        numberButton =(ElegantNumberButton) findViewById(R.id.number_button);
-        btnCart =(FloatingActionButton) findViewById(R.id.btnCart);
-        product_Image =(ImageView) findViewById(R.id.food_img);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing);
 
-        collapsingToolbarLayout =(CollapsingToolbarLayout) findViewById(R.id.collapsing);
-
-
-
-
-        btn_add =(Button) findViewById(R.id.btn_add);
-        btn_sub =(Button) findViewById(R.id.btn_sub);
-        product_Quantity =(TextView) findViewById(R.id.txt_quantity);
+        btn_add = (Button) findViewById(R.id.btn_add);
+        btn_sub = (Button) findViewById(R.id.btn_sub);
+        product_Quantity = (TextView) findViewById(R.id.txt_quantity);
 
         btn_add.setOnClickListener(this);
         btn_sub.setOnClickListener(this);
-
-
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -82,14 +89,17 @@ public class ViewProductActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-    private  void bindData(){
+
+    private void bindData() {
 
         productName.setText(product.getProductName());
         productDescription.setText(product.getDescription());
         productPrice.setText(Integer.toString(product.getPrice()));
+        productId.setText(Integer.toString(product.getpId()));
         Picasso.with(getBaseContext())
                 .load(product.getImage())
                 .into(product_Image);
+
 
 
 
@@ -98,53 +108,92 @@ public class ViewProductActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View view) {
-        int quantity;
+
         switch (view.getId()) {
             case R.id.btn_sub:
                 quantity = Integer.parseInt(product_Quantity.getText().toString());
                 quantity--;
                 product_Quantity.setText(String.valueOf(quantity));
-
-                // update  cart from the user id
-
-
+                UpdateCart();
 
                 break;
             case R.id.btn_add:
-                 quantity = Integer.parseInt(product_Quantity.getText().toString());
+                quantity = Integer.parseInt(product_Quantity.getText().toString());
                 quantity++;
                 product_Quantity.setText(String.valueOf(quantity));
-                // update cart from the user id
-
-
+                UpdateCart();
+                break;
         }
 
     }
+
+
     private void loadRecylerViewData() {
+        pid = Integer.parseInt(productId.getText().toString());
+        SharedPreferences example = getSharedPreferences(MyPREFERENCES, 0);
+        int userId = example.getInt("value", 0);
 
         CartService cartService = ApiClient.getClient().create(CartService.class);
-        Call<List<Cart>> call = cartService.getByCartId(cartId);
-
-        call.enqueue(new Callback<List<Cart>>() {
+        Call<Cart> call = cartService.getByBoth(userId, pid);
+        call.enqueue(new Callback<Cart>() {
             @Override
-            public void onResponse(Call<List<Cart>> call, Response<List<Cart>> response) {
+            public void onResponse(Call<Cart> call, Response<Cart> response) {
                 if (response.isSuccessful()) {
-//                testresult.setText("code" +response.code());.
-                    List<Cart> carts = response.body();
-                    int quantity = carts.get(cartId).getQuantity();
-                    product_Quantity.setText(String.valueOf(quantity));
+                     cartId = response.body().getCartId();
 
-//                    cartList.addAll(carts);
-//                    adapter.notifyDataSetChanged();
+                     cartQuantityR = response.body().getQuantity();
+                    product_Quantity.setText(Integer.toString(cartQuantityR));
+                     System.out.println("firsttime cartId" +cartQuantityR);
+
+
+
                 } else {
-//                    Log.d()
-                    System.out.println(response);
+                    cartId = 0;
+
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Cart>> call, Throwable t) {
+            public void onFailure(Call<Cart> call, Throwable t) {
                 System.out.println(t.getMessage());
+            }
+        });
+    }
+
+
+
+    private void UpdateCart() {
+        SharedPreferences example = getSharedPreferences(MyPREFERENCES, 0);
+        int userId = example.getInt("value", 0);
+
+        Cart cartUpdate = new Cart();
+        cartUpdate.setUserId(userId);
+        cartUpdate.setCartId(cartId);
+        cartUpdate.setQuantity(quantity);
+        cartUpdate.setProductName(productName.getText().toString().trim());
+        cartUpdate.setpId(pid);
+
+        CartService cartService = ApiClient.getClient().create(CartService.class);
+        Call<JSONObject> call = cartService.UpdateCart(cartUpdate);
+
+        call.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                if (response.isSuccessful()) {
+                    System.out.println(" cart updated");
+
+                } else {
+                    try {
+                        Toast.makeText(getApplicationContext(), response.errorBody().string(), Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+
             }
         });
     }
