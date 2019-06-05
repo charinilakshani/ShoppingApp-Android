@@ -8,8 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".FrontView.CartActivity">
 
-
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_cart"
         android:background="@android:color/transparent"

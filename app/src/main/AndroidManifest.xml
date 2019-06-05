@@ -11,7 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FrontView.CheckOutActivity"></activity>
+        <activity
+            android:name=".FrontView.CheckOut_Bottom_Navigation"
+            android:label="@string/title_activity_check_out__bottom__navigation"></activity>
+        <activity android:name=".FrontView.PurchaseHistoryActivity" />
+        <activity android:name=".FrontView.CheckOutActivity" />
         <activity android:name=".FrontView.CartActivity" />
         <activity
             android:name=".FrontView.content_home"

@@ -24,6 +24,8 @@ public class Product {
     @SerializedName("image")
     private String image;
 
+
+
     public Product() {
     }
 
@@ -85,6 +87,8 @@ public class Product {
         this.image = image;
     }
 
+
+
     public Product(int pId, String productName, String category, int price, int quantity, String description, String image) {
         this.pId = pId;
         this.productName = productName;
@@ -93,6 +97,7 @@ public class Product {
         this.quantity = quantity;
         this.description = description;
         this.image = image;
+
     }
 
     @Override
@@ -107,4 +112,7 @@ public class Product {
                 ", image='" + image + '\'' +
                 '}';
     }
+
+
+
 }

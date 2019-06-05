@@ -63,7 +63,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 loadRecylerViewData();
                 break;
             case R.id.tRegisterLink:
-                startActivity( new Intent(this,RegisterActivity.class));
+                startActivity( new Intent(this,CheckOut_Bottom_Navigation.class));
+//                startActivity( new Intent(this,RegisterActivity.class));
                 break;
         }
     }

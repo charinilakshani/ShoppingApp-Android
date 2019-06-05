@@ -18,11 +18,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.rettrrofit.R;
+import com.example.rettrrofit.adapters.categoryAdapter;
 import com.example.rettrrofit.adapters.productAdapter;
 import com.example.rettrrofit.clients.ApiClient;
 import com.example.rettrrofit.models.Cart;
+import com.example.rettrrofit.models.Category;
 import com.example.rettrrofit.models.Product;
 import com.example.rettrrofit.services.CartService;
+import com.example.rettrrofit.services.CategoryService;
 import com.example.rettrrofit.services.ProductService;
 
 import java.util.ArrayList;
@@ -37,13 +40,12 @@ public class content_home extends AppCompatActivity
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    private List<Product> productList;
-    private FloatingActionButton floatingActionButton;
-    String categoryname ="";
+    private List<Category> categoryList;
 
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String UserId = "userId";
     SharedPreferences sharedpreferences;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +79,8 @@ public class content_home extends AppCompatActivity
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        productList = new ArrayList<>();
-        adapter = new productAdapter(productList, this);
+        categoryList = new ArrayList<>();
+        adapter = new categoryAdapter(categoryList, this);
         recyclerView.setAdapter(adapter);
         floatingActionButton =(FloatingActionButton) findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(this);
@@ -128,27 +130,25 @@ public class content_home extends AppCompatActivity
 
 
     private void loadRecylerViewData() {
+        CategoryService categoryService = ApiClient.getClient().create(CategoryService.class);
+        Call<List<Category>> call = categoryService.getCategory();
 
-        ProductService productService = ApiClient.getClient().create(ProductService.class);
-        Call<List<Product>> call = productService.getProducts();
-
-        call.enqueue(new Callback<List<Product>>() {
+        call.enqueue(new Callback<List<Category>>() {
             @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
                 if (response.isSuccessful()) {
-//                testresult.setText("code" +response.code());.
-                    List<Product> products = response.body();
-                    productList.addAll(products);
-                    adapter.notifyDataSetChanged();
-                } else {
-//                    Log.d()
-                    System.out.println(response);
+                    List<Category> categories = response.body();
+                    categoryList.addAll(categories);
+                    adapter .notifyDataSetChanged();
+                }else {
+
                 }
+
             }
 
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable t) {
-                System.out.println(t.getMessage());
+            public void onFailure(Call<List<Category>> call, Throwable t) {
+
             }
         });
     }

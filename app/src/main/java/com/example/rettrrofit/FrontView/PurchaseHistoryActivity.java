@@ -8,13 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.example.rettrrofit.R;
-import com.example.rettrrofit.adapters.categoryAdapter;
 import com.example.rettrrofit.adapters.checkOutAdapter;
 import com.example.rettrrofit.clients.ApiClient;
-import com.example.rettrrofit.models.Cart;
-import com.example.rettrrofit.models.Category;
 import com.example.rettrrofit.models.CheckOut;
-import com.example.rettrrofit.services.CartService;
 import com.example.rettrrofit.services.CheckOutService;
 
 import java.util.ArrayList;
@@ -24,8 +20,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CheckOutActivity extends AppCompatActivity {
-  private TextView Total;
+public class PurchaseHistoryActivity extends AppCompatActivity {
+    private TextView Total;
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String UserId = "userId";
     SharedPreferences sharedpreferences;
@@ -37,12 +33,10 @@ public class CheckOutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_check_out);
-        init();
-        getCartForCheckOut();
+        setContentView(R.layout.activity_purchase_history);
     }
     private void init() {
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_id);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewCategory);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -81,9 +75,5 @@ public class CheckOutActivity extends AppCompatActivity {
                 System.out.println(t.getMessage());
             }
         });
-    }
-
-    private void deleteFromCheckOut(){
-
     }
 }

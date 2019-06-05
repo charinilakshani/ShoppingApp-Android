@@ -10,6 +10,9 @@ public class Category {
     @SerializedName("name")
     private String name;
 
+    @SerializedName("imgUrl")
+    private String imgUrl;
+
     public int getId() {
         return id;
     }
@@ -26,11 +29,20 @@ public class Category {
         this.name = name;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
     @Override
     public String toString() {
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
                 '}';
     }
 }

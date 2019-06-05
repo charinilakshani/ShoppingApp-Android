@@ -3,6 +3,7 @@ package com.example.rettrrofit.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,80 +19,106 @@ import android.widget.Toast;
 import com.example.rettrrofit.FrontView.CartActivity;
 import com.example.rettrrofit.FrontView.ViewProductActivity;
 import com.example.rettrrofit.R;
+import com.example.rettrrofit.clients.ApiClient;
 import com.example.rettrrofit.models.Cart;
+import com.example.rettrrofit.models.CheckOut;
 import com.example.rettrrofit.models.Product;
 import com.example.rettrrofit.services.CartService;
+import com.example.rettrrofit.services.CheckOutService;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> {
 
     private List<Cart> carts;
     private Context context;
+    int quantity;
+    Cart cart;
+    int productId, cartId;
+    String productName;
+
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String UserId = "userId";
+    SharedPreferences sharedpreferences;
 
     public cartAdapter(List<Cart> carts, Context context) {
         this.carts = carts;
         this.context = context;
+
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cart_list, viewGroup, false);
+
         return new MyViewHolder(v);
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder viewHolder, int position) {
 
         final Cart cart = carts.get(position);
         viewHolder.cart_item_name.setText(String.valueOf(cart.getpId()));
 
         viewHolder.cart_item_price.setText(String.valueOf(cart.getQuantity()));
         viewHolder.cart_item_name.setText(cart.getProductName());
-//        viewHolder.btn_delete.setOnClickListener(view -> {
-//            CartService cartService = new CartService() ;
-//
-//
-//            cartService.deleteCartItem(context, cartProduct.getProduct().getId(), 0);
-//            cartProductList.remove(myViewHolder.getAdapterPosition());
-//            notifyItemRemoved(myViewHolder.getAdapterPosition());
-//        });
+        viewHolder.txt_quantity.setText(String.valueOf(cart.getQuantity()));
+        viewHolder.product_id.setText(String.valueOf(cart.getpId()));
+        viewHolder.cart_Id.setText(String.valueOf(cart.getCartId()));
 
-//        viewHolder.cart_id_count.setText(String.valueOf(cart.getQuantity()));
-//        viewHolder.text_price.setText(String.valueOf(cart.getQuantity()));
+        viewHolder.btn_Add.setOnClickListener(new View.OnClickListener() {
+
+             @Override
+             public void onClick(View view) {
+
+                  quantity = Integer.parseInt(viewHolder.txt_quantity.getText().toString());
+                 quantity ++;
+                 viewHolder.txt_quantity.setText(String.valueOf(quantity));
+                 productId = Integer.parseInt(viewHolder.product_id.getText().toString());
+                 cartId = Integer.parseInt(viewHolder.cart_Id.getText().toString());
+                 productName = viewHolder.cart_item_name.getText().toString();
+                 getUpdate( );
+
+                 System.out.print(" product added");
+             }
+         });
+         viewHolder.btn_Sub.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 quantity = Integer.parseInt(viewHolder.txt_quantity.getText().toString());
+                 quantity --;
+                 viewHolder.txt_quantity.setText(String.valueOf(quantity));
+                 productId = Integer.parseInt(viewHolder.product_id.getText().toString());
+                 cartId = Integer.parseInt(viewHolder.cart_Id.getText().toString());
+                 productName = viewHolder.cart_item_name.getText().toString();
+                 getUpdate(  );
+
+                 System.out.print(" product added");
+
+             }
+         });
 
 
 
-//        viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-////                Toast.makeText(context, "Clicked" + product.getpId(), Toast.LENGTH_LONG).show();
-//
-//                Intent intent = new Intent(context, CartActivity.class);
-//                Gson gson = new Gson();
-//                String productObject = gson.toJson(cart);
-//                intent.putExtra("cart", productObject);
-//                context.startActivity(intent);
-//            }
-//        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return carts.size();
-    }
+        }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView cart_item_name, cart_item_price;
+        public TextView cart_item_name, cart_item_price ,txt_quantity, cart_Id,product_id;
         public ImageView cart_id_count;
         public LinearLayout linearLayout;
         public ImageView btn_delete;
+        public  Button btn_Sub,btn_Add;
 
 
         public MyViewHolder(@NonNull View itemView) {
@@ -101,9 +128,66 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> 
             linearLayout = (LinearLayout) itemView.findViewById(R.id.cart_row_id);
             cart_item_price = (TextView) itemView.findViewById(R.id.cart_item_price);
             btn_delete = (ImageView) itemView.findViewById(R.id.detele_item);
+            txt_quantity =(TextView) itemView.findViewById(R.id.txt_quantity);
+            btn_Add =   (Button)  itemView.findViewById(R.id.btn_add);
+            btn_Sub =(Button) itemView.findViewById(R.id.btn_sub);
+            cart_Id =(TextView) itemView.findViewById(R.id.cart_id);
+            product_id =(TextView) itemView.findViewById(R.id.product_id);
+
 
         }
     }
+
+    @Override
+    public int getItemCount() {
+        return carts.size();
+    }
+
+public  void getUpdate(){
+        System.out.println(" cart option" +carts);
+
+    SharedPreferences example = context.getSharedPreferences(MyPREFERENCES, 0);
+    int userId = example.getInt("value", 0);
+
+
+    Cart cartUpdate = new Cart();
+    cartUpdate.setUserId(userId);
+    cartUpdate.setpId(productId);
+    cartUpdate.setCartId(cartId);
+    cartUpdate.setProductName(productName);
+
+    cartUpdate.setQuantity(quantity);
+
+
+    System.out.println("string values"+ cartUpdate);
+
+
+    CartService cartService = ApiClient.getClient().create(CartService.class);
+    Call<JSONObject> call = cartService.UpdateCart(cartUpdate);
+
+    call.enqueue(new Callback<JSONObject>() {
+        @Override
+        public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+            if (response.isSuccessful()) {
+                System.out.println(" cart updated");
+
+            } else {
+
+            }
+        }
+
+        @Override
+        public void onFailure(Call<JSONObject> call, Throwable t) {
+
+        }
+    });
+
+}
+
+
+
+
+
 
 }
 
