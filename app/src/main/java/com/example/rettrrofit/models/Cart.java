@@ -15,10 +15,11 @@ public class Cart {
     @SerializedName("productName")
     private String productName;
 
-
-
     @SerializedName("pId")
     private int pId;
+
+    @SerializedName("productImage")
+    private String productImage;
 
 
 
@@ -62,14 +63,23 @@ public class Cart {
         this.productName = productName;
     }
 
+    public String getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
+    }
+
     @Override
     public String toString() {
         return "Cart{" +
-                "cartId=" + cartId +
+                "userId=" + userId +
+                ", cartId=" + cartId +
                 ", quantity=" + quantity +
                 ", productName='" + productName + '\'' +
-                ", userId=" + userId +
                 ", pId=" + pId +
+                ", productImage='" + productImage + '\'' +
                 '}';
     }
 }

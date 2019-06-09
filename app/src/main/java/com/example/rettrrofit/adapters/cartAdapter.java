@@ -77,6 +77,9 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> 
         viewHolder.product_id.setText(String.valueOf(cart.getpId()));
         viewHolder.cart_Id.setText(String.valueOf(cart.getCartId()));
 
+
+
+
         viewHolder.btn_Add.setOnClickListener(new View.OnClickListener() {
 
              @Override
@@ -117,7 +120,7 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> 
         public TextView cart_item_name, cart_item_price ,txt_quantity, cart_Id,product_id;
         public ImageView cart_id_count;
         public LinearLayout linearLayout;
-        public ImageView btn_delete;
+        public ImageView btn_delete, image;
         public  Button btn_Sub,btn_Add;
 
 
@@ -133,6 +136,7 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> 
             btn_Sub =(Button) itemView.findViewById(R.id.btn_sub);
             cart_Id =(TextView) itemView.findViewById(R.id.cart_id);
             product_id =(TextView) itemView.findViewById(R.id.product_id);
+            image =(ImageView)itemView.findViewById(R.id.image);
 
 
         }

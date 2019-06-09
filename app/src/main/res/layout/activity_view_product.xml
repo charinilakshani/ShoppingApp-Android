@@ -154,7 +154,7 @@
                             android:layout_marginRight="10dp"
 
                             android:padding="2dp"
-                            android:text="5" />
+                            android:text="0" />
 
                         <Button
                             android:id="@+id/btn_add"

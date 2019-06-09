@@ -36,7 +36,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn_placeOrder;
     private RecyclerView.Adapter adapter;
     private List<Cart> cartList;
-     List<Cart>  cartListForCheckOut;
+    private List<Cart>  cartListForCheckOut;
 
     String cjjc;
 
@@ -78,7 +78,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_placeOrder:
 
                 getCartForCheckOut();
-                sendListOfCheckOut();
+//                deleteCart();
+
                 startActivity(new Intent(this, CheckOutActivity.class));
 //                getCartForCheckOut();
 
@@ -145,8 +146,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                     cartListForCheckOut = new ArrayList<>();
                     cartListForCheckOut.addAll(carts);
 //
-//                    System.out.println(" cartList" + cartListForCheckOut);
-//                    sendListOfCheckOut();
+                    System.out.println(" cartList" + cartListForCheckOut);
+                    sendListOfCheckOut();
 
                 } else {
 //                    Log.d()
@@ -169,11 +170,11 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         int userId = example.getInt("value", 0);
 
         CheckOutService checkOutService = ApiClient.getClient().create(CheckOutService.class);
-        Call<List<ArrayList>> call = checkOutService.checkOut(cartListForCheckOut);
+        Call<List> call = checkOutService.checkOut(cartListForCheckOut);
 
-        call.enqueue(new Callback <List<ArrayList>>() {
+        call.enqueue(new Callback <List>() {
             @Override
-            public void onResponse(Call <List<ArrayList>>call, Response<List <ArrayList>> response) {
+            public void onResponse(Call <List>call, Response<List > response) {
                 if (response.isSuccessful()) {
 
                 } else {
@@ -183,7 +184,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             @Override
-            public void onFailure(Call<List<ArrayList>> call, Throwable t) {
+            public void onFailure(Call<List> call, Throwable t) {
                 System.out.println(t.getMessage());
             }
         });
@@ -192,30 +193,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void deleteCart() {
-        SharedPreferences example = getSharedPreferences(MyPREFERENCES, 0);
-        int userId = example.getInt("value", 0);
-        System.out.println("userString" + userId);
-        System.out.println(" Authenticatedddddd" + userId);
-
-
-        CartService cartService = ApiClient.getClient().create(CartService.class);
-        Call<Void> call = cartService.deleteCart(userId);
-
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-
-            }
-        });
-
-    }
-
+//
 
 }

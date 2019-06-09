@@ -25,10 +25,13 @@ public interface CartService {
     @GET("user/carts/byBoth/{userId}/{pid}")
     Call<Cart>getByBoth(@Path("userId") int userId, @Path("pid") int pid);
 
-    @POST("user/carts")
+    @POST("user/carts/fromMobile")
     Call<JSONObject>UpdateCart(@Body Cart cart);
 
-    @DELETE("carts/{userId}")
+    @DELETE("user/carts/deleteAll/{userId}")
     Call<Void> deleteCart(@Path("userId") int userId);
+
+    @GET("user/carts/{userId}")
+    Call<List<Cart>> getByUserId(@Path("userId") int id);
 
 }

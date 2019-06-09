@@ -19,7 +19,7 @@ import android.view.MenuItem;
 
 import com.example.rettrrofit.R;
 import com.example.rettrrofit.adapters.categoryAdapter;
-import com.example.rettrrofit.adapters.productAdapter;
+
 import com.example.rettrrofit.clients.ApiClient;
 import com.example.rettrrofit.models.Cart;
 import com.example.rettrrofit.models.Category;
@@ -194,7 +194,10 @@ public class content_home extends AppCompatActivity
 
          if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
+             home();
+
+
+         } else if (id == R.id.nav_manage) {
 
         }
 
@@ -202,6 +205,9 @@ public class content_home extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    private  void home(){
+        Intent intent = new Intent(this, PurchaseHistoryActivity.class);
+        startActivity(intent);
+    }
 
 }

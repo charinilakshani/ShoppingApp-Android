@@ -10,16 +10,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.rettrrofit.R;
+import com.example.rettrrofit.models.Cart;
 import com.example.rettrrofit.models.Category;
 import com.example.rettrrofit.models.CheckOut;
 
 import java.util.List;
 
 public class checkOutAdapter extends RecyclerView.Adapter<checkOutAdapter.ViewHolder> {
-    private List<CheckOut> checkOuts;
+    private List<Cart> checkOuts;
     private Context context;
 
-    public checkOutAdapter(List<CheckOut> categories, Context context) {
+    public checkOutAdapter(List<Cart> categories, Context context) {
         this.checkOuts = categories;
         this.context = context;
     }
@@ -36,10 +37,10 @@ public class checkOutAdapter extends RecyclerView.Adapter<checkOutAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
-        final CheckOut checkOut = checkOuts.get(i);
-        viewHolder.textViewProductName.setText(checkOut.getProductName());
-        viewHolder.txtViewQuantity.setText(String.valueOf(checkOut.getPrice()));
-        viewHolder.textViewProductPrice.setText(String.valueOf(checkOut.getPrice()));
+        final Cart cart = checkOuts.get(i);
+        viewHolder.textViewProductName.setText(cart.getProductName());
+        viewHolder.txtViewQuantity.setText(String.valueOf(cart.getQuantity()));
+        viewHolder.textViewProductPrice.setText(String.valueOf(cart.getCartId()));
 //
 
 
@@ -65,7 +66,7 @@ public class checkOutAdapter extends RecyclerView.Adapter<checkOutAdapter.ViewHo
             textViewProductPrice = (TextView) itemView.findViewById(R.id.checkOut_item_price);
             txtViewQuantity =(TextView) itemView.findViewById(R.id.txt_item_count) ;
 
-            linearLayoutCategoryId = (LinearLayout) itemView.findViewById(R.id.linear_category_row_id);
+//            linearLayoutCategoryId = (LinearLayout) itemView.findViewById(R.id.linear_category_row_id);
 
         }
     }

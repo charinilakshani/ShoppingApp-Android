@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="20dp">
 
             <TextView
                 android:id="@+id/textPid"
@@ -27,12 +27,17 @@
                 android:id="@+id/textProductName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+
                 android:text="ProductName" />
 
             <ImageView
                 android:id="@+id/imageViewList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_width="300dp"
+                android:layout_height="200dp" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

@@ -80,6 +80,7 @@ public class ViewProductActivity extends AppCompatActivity implements View.OnCli
 
         btn_add.setOnClickListener(this);
         btn_sub.setOnClickListener(this);
+        btnCart.setOnClickListener(this);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -123,6 +124,10 @@ public class ViewProductActivity extends AppCompatActivity implements View.OnCli
                 product_Quantity.setText(String.valueOf(quantity));
                 UpdateCart();
                 break;
+            case R.id.btnCart:
+                startActivity( new Intent(this,CartActivity.class));
+                break;
+
         }
 
     }
@@ -170,6 +175,7 @@ public class ViewProductActivity extends AppCompatActivity implements View.OnCli
         cartUpdate.setUserId(userId);
         cartUpdate.setCartId(cartId);
         cartUpdate.setQuantity(quantity);
+
         cartUpdate.setProductName(productName.getText().toString().trim());
         cartUpdate.setpId(pid);
 

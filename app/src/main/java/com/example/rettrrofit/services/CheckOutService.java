@@ -19,8 +19,7 @@ import retrofit2.http.Path;
 public interface CheckOutService {
 
     @POST("user/checkOut")
-
-    Call <List<ArrayList>> checkOut(@Body List<Cart> checkOut);
+    Call <List> checkOut(@Body List<Cart> checkOut);
 
     @GET("user/checkOut/{userId}")
     Call<List<CheckOut>> getByUserId(@Path("userId") int id);
