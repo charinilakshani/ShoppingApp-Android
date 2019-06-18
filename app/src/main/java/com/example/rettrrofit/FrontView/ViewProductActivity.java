@@ -49,6 +49,7 @@ public class ViewProductActivity extends AppCompatActivity implements View.OnCli
     int quantity;
     int cartId;
   int  cartQuantityR;
+ String imageUrl;
 
 
     @Override
@@ -145,6 +146,9 @@ public class ViewProductActivity extends AppCompatActivity implements View.OnCli
             public void onResponse(Call<Cart> call, Response<Cart> response) {
                 if (response.isSuccessful()) {
                      cartId = response.body().getCartId();
+                    System.out.println("getcartId" + cartId);
+                     imageUrl =response.body().getProductImage();
+                    System.out.println("imageUrl" + imageUrl);
 
                      cartQuantityR = response.body().getQuantity();
                     product_Quantity.setText(Integer.toString(cartQuantityR));
@@ -175,9 +179,17 @@ public class ViewProductActivity extends AppCompatActivity implements View.OnCli
         cartUpdate.setUserId(userId);
         cartUpdate.setCartId(cartId);
         cartUpdate.setQuantity(quantity);
+        cartUpdate.setProductImage(product.getImage());
+//        cartUpdate.setProductImage(product_Image.ge);
+//        cartUpdate.setProductImage(product_Image..toString());
+
+    //    cartUpdate.setTotalPrice(price*quantity);
 
         cartUpdate.setProductName(productName.getText().toString().trim());
+
+
         cartUpdate.setpId(pid);
+        System.out.print(" get Updated products" +cartUpdate);
 
         CartService cartService = ApiClient.getClient().create(CartService.class);
         Call<JSONObject> call = cartService.UpdateCart(cartUpdate);

@@ -32,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private EditText firstName, secondName, email, password;
     private Button btnRegister;
-private TextView alertText;
+    private TextView alertText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +72,7 @@ private TextView alertText;
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+//                        alertText.setVisibility(view.VISIBLE);
                         alertText.setVisibility(view.VISIBLE);
                     }
                 });
@@ -98,7 +99,7 @@ private TextView alertText;
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
                 if (response.isSuccessful()) {
-                    Intent intent = new Intent(getApplicationContext(), content_home.class);
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                 } else {
                     try {

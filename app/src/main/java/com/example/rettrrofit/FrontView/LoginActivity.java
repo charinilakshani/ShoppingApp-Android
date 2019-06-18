@@ -1,8 +1,10 @@
 package com.example.rettrrofit.FrontView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.View;
 
 import com.example.rettrrofit.R;
 import com.example.rettrrofit.clients.ApiClient;
@@ -30,6 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button btnLogin;
     EditText etEmail, etPassword;
     TextView registerLink;
+    private TextView alertText;
 
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String UserId = "userId";
@@ -47,6 +51,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         etPassword = (EditText) findViewById(R.id.etPassword);
         btnLogin = (Button) findViewById(R.id.bLogin);
         registerLink = (TextView) findViewById(R.id.tRegisterLink);
+        alertText =(TextView) findViewById(R.id.AlertTextView);
 
 
         btnLogin.setOnClickListener(this);
@@ -63,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 loadRecylerViewData();
                 break;
             case R.id.tRegisterLink:
-                startActivity( new Intent(this,CheckOut_Bottom_Navigation.class));
+                startActivity( new Intent(this,RegisterActivity.class));
 //                startActivity( new Intent(this,RegisterActivity.class));
                 break;
         }
@@ -99,8 +104,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
                 } else {
-//                    Log.d()
-                    System.out.println(" You are not an regisster person"+response);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setCancelable(true);
+                    builder.setTitle("Massage");
+                    builder.setMessage("Your user Name or Password Incorrect");
+                    builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+
+                        }
+                    });
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            alertText.setVisibility(onCreatePanelView(i).VISIBLE);
+                        }
+                    });
+                    builder.show();
+
+
+//
                 }
             }
 

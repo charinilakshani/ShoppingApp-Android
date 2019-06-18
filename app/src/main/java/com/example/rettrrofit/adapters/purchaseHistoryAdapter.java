@@ -6,12 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.rettrrofit.R;
 import com.example.rettrrofit.models.Cart;
 import com.example.rettrrofit.models.CheckOut;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class purchaseHistoryAdapter extends RecyclerView.Adapter<purchaseHistory
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.checkout_list, viewGroup, false);
+                .inflate(R.layout.purchase_history_list, viewGroup, false);
         return new ViewHolder(view);
 
     }
@@ -41,6 +43,9 @@ public class purchaseHistoryAdapter extends RecyclerView.Adapter<purchaseHistory
         viewHolder.txtViewQuantity.setText(String.valueOf(checkOut.getQuantity()));
         viewHolder.textViewProductPrice.setText(String.valueOf(checkOut.getCartId()));
 //
+        Picasso.with(context)
+                .load(checkOut.getProductImage())
+                .into(viewHolder.productImage);
 
 
     }
@@ -54,7 +59,7 @@ public class purchaseHistoryAdapter extends RecyclerView.Adapter<purchaseHistory
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView textViewProductName, textViewProductPrice, txtViewQuantity;
-
+        public ImageView productImage;
         public LinearLayout linearLayoutCategoryId;
 
         //        public ImageView  categoryImage;
@@ -64,6 +69,7 @@ public class purchaseHistoryAdapter extends RecyclerView.Adapter<purchaseHistory
             textViewProductName = (TextView) itemView.findViewById(R.id.checkOut_out_name);
             textViewProductPrice = (TextView) itemView.findViewById(R.id.checkOut_item_price);
             txtViewQuantity = (TextView) itemView.findViewById(R.id.txt_item_count);
+            productImage =(ImageView) itemView.findViewById(R.id.checkout_Image);
 
 //            linearLayoutCategoryId = (LinearLayout) itemView.findViewById(R.id.linear_category_row_id);
 

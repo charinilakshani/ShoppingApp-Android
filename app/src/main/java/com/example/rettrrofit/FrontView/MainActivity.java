@@ -11,7 +11,8 @@ import com.example.rettrrofit.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView testresult;
-    private Button btnclick;
+    private Button btnclick,register;
+
 
 
     @Override
@@ -25,7 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void init() {
         btnclick = (Button) findViewById(R.id.btnclickforlogin);
+        register =(Button) findViewById(R.id.btnSignIn);
         btnclick.setOnClickListener(this);
+        register.setOnClickListener(this);
 
 
     }
@@ -36,6 +39,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btnclickforlogin:
                 startActivity(new Intent(this, LoginActivity.class));
+//                startActivity(new Intent(this, HomeActivity.class));
+                break;
+
+            case R.id.btnSignIn:
+                startActivity(new Intent(this, RegisterActivity.class));
 //                startActivity(new Intent(this, HomeActivity.class));
                 break;
         }

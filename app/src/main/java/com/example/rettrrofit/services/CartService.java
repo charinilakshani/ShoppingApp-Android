@@ -34,4 +34,7 @@ public interface CartService {
     @GET("user/carts/{userId}")
     Call<List<Cart>> getByUserId(@Path("userId") int id);
 
+    @DELETE("user/carts/{cartId}")
+    Call<Void> deleteCartByCartId(@Path("cartId") int cartId);
+
 }

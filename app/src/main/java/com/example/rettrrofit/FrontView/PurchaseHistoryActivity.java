@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.rettrrofit.R;
 import com.example.rettrrofit.adapters.checkOutAdapter;
+import com.example.rettrrofit.adapters.purchaseHistoryAdapter;
 import com.example.rettrrofit.clients.ApiClient;
 import com.example.rettrrofit.models.Cart;
 import com.example.rettrrofit.models.CheckOut;
@@ -50,7 +51,7 @@ public class PurchaseHistoryActivity extends AppCompatActivity implements View.O
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         checkOutList = new ArrayList<>();
-        adapter = new checkOutAdapter(checkOutList, this);
+        adapter = new purchaseHistoryAdapter(checkOutList, this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -92,10 +93,10 @@ public class PurchaseHistoryActivity extends AppCompatActivity implements View.O
             case R.id.btn_placeOrder:
 
                 break;
-            case R.id.tRegisterLink:
-                startActivity( new Intent(this,CheckOut_Bottom_Navigation.class));
-//                startActivity( new Intent(this,RegisterActivity.class));
-                break;
+//            case R.id.tRegisterLink:
+//                startActivity( new Intent(this,CheckOut_Bottom_Navigation.class));
+////                startActivity( new Intent(this,RegisterActivity.class));
+//                break;
         }
 
     }

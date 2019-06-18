@@ -21,7 +21,7 @@ import com.example.rettrrofit.R;
 import com.example.rettrrofit.adapters.categoryAdapter;
 
 import com.example.rettrrofit.clients.ApiClient;
-import com.example.rettrrofit.models.Cart;
+
 import com.example.rettrrofit.models.Category;
 import com.example.rettrrofit.models.Product;
 import com.example.rettrrofit.services.CartService;
@@ -87,12 +87,6 @@ public class content_home extends AppCompatActivity
 
 
 
-//        public  void logout(View view){
-//            SharedPreferences sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-//            SharedPreferences.Editor editor = sharedpreferences.edit();
-//            editor.clear();
-//            editor.commit();
-//        }
 
         // getIntent Here
 //        if(getIntent() !=null){
@@ -124,6 +118,15 @@ public class content_home extends AppCompatActivity
 
 
 
+    public  void logout(){
+
+        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.clear();
+        editor.commit();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
 
 
 
@@ -180,6 +183,7 @@ public class content_home extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            logout();
             return true;
         }
 
@@ -192,12 +196,19 @@ public class content_home extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-         if (id == R.id.nav_slideshow) {
+        if (id == R.id.nav_slideshow) {
+
+            home();
+
+
+        }  else if (id == R.id.nav_slideshow) {
 
              home();
 
 
          } else if (id == R.id.nav_manage) {
+            cart();
+
 
         }
 
@@ -207,6 +218,11 @@ public class content_home extends AppCompatActivity
     }
     private  void home(){
         Intent intent = new Intent(this, PurchaseHistoryActivity.class);
+        startActivity(intent);
+    }
+
+    private  void cart(){
+        Intent intent = new Intent(this, CartActivity.class);
         startActivity(intent);
     }
 

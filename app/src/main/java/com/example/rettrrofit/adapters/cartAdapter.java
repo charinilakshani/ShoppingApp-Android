@@ -31,6 +31,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -44,7 +45,7 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> 
     int quantity;
     Cart cart;
     int productId, cartId;
-    String productName;
+    String productName,image;
 
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String UserId = "userId";
@@ -77,7 +78,9 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> 
         viewHolder.product_id.setText(String.valueOf(cart.getpId()));
         viewHolder.cart_Id.setText(String.valueOf(cart.getCartId()));
 
-
+        Picasso.with(context)
+                .load(cart.getProductImage())
+                .into(viewHolder.image);
 
 
         viewHolder.btn_Add.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +94,7 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> 
                  productId = Integer.parseInt(viewHolder.product_id.getText().toString());
                  cartId = Integer.parseInt(viewHolder.cart_Id.getText().toString());
                  productName = viewHolder.cart_item_name.getText().toString();
+                 image         =viewHolder.image.getContext().toString();
                  getUpdate( );
 
                  System.out.print(" product added");
@@ -105,9 +109,21 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> 
                  productId = Integer.parseInt(viewHolder.product_id.getText().toString());
                  cartId = Integer.parseInt(viewHolder.cart_Id.getText().toString());
                  productName = viewHolder.cart_item_name.getText().toString();
-                 getUpdate(  );
+
+                 getUpdate();
 
                  System.out.print(" product added");
+
+             }
+         });
+
+         viewHolder.btn_delete.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+
+                 cartId = Integer.parseInt(viewHolder.cart_Id.getText().toString());
+                 deleteCart();
+
 
              }
          });
@@ -159,6 +175,9 @@ public  void getUpdate(){
     cartUpdate.setpId(productId);
     cartUpdate.setCartId(cartId);
     cartUpdate.setProductName(productName);
+    cartUpdate.setProductImage(image);
+
+
 
     cartUpdate.setQuantity(quantity);
 
@@ -188,9 +207,63 @@ public  void getUpdate(){
 
 }
 
+public  void deleteCart(){
+
+    CartService cartService = ApiClient.getClient().create(CartService.class);
+    Call<Void> call = cartService.deleteCartByCartId(cartId);
+
+    call.enqueue(new Callback <Void>() {
+        @Override
+        public void onResponse(Call<Void> call, Response<Void> response) {
+            if (response.isSuccessful()) {
+                System.out.println(" cart updated");
+                getAgain();
 
 
 
+            } else {
+
+            }
+        }
+
+        @Override
+        public void onFailure(Call<Void> call, Throwable t) {
+
+        }
+    });
+
+}
+
+    private void getAgain() {
+
+        SharedPreferences example = context.getSharedPreferences(MyPREFERENCES, 0);
+        int userId = example.getInt("value", 0);
+        System.out.println("userString" + userId);
+        System.out.println(" Authenticatedddddd" + userId);
+
+        CartService cartService = ApiClient.getClient().create(CartService.class);
+        Call<List<Cart>> call = cartService.getByCartId(userId);
+
+        call.enqueue(new Callback<List<Cart>>() {
+            @Override
+            public void onResponse(Call<List<Cart>> call, Response<List<Cart>> response) {
+                if (response.isSuccessful()) {
+//                    int totalprice = 0;
+//                testresult.setText("code" +response.code());.
+                    List<Cart> carts = response.body();
+//
+                } else {
+//                    Log.d()
+                    System.out.println(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Cart>> call, Throwable t) {
+                System.out.println(t.getMessage());
+            }
+        });
+    }
 
 
 }

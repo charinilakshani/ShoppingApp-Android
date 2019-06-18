@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name" />
+        android:text="FirstName" />
 
     <EditText
         android:id="@+id/etName"
@@ -24,7 +24,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="UserName" />
+        android:text="Second Name" />
 
     <EditText
         android:id="@+id/etUserName"
@@ -36,7 +36,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Age" />
+        android:text="Email" />
 
     <EditText
         android:id="@+id/etAge"
@@ -73,6 +73,8 @@
         android:id="@+id/bRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register" />
+        android:background="#330000"
+        android:text="Register"
+        android:textColor="@color/colorPrimaryDark" />
 
 </LinearLayout>
